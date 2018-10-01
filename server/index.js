@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, '../dist')));
 
 app.get('*', function(req, res) {
-  res.sendFile(path.resolve(__dirname, 'index.html'));
+  res.sendFile(path.resolve('dist', 'index.html'));
 });
 
 app.listen(PORT, () => { console.log(`server is connected to port ${PORT}`)});
