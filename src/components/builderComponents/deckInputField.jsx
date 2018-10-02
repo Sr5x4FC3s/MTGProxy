@@ -7,7 +7,7 @@ const InputField = (props) => {
     <div>
       <form id="deck-builder-form">
         <label>
-          Input Card Names (Separate them by commas if you wish to enter more than one card at a time)
+          Input Card Names (Separate them by colons if you wish to enter more than one card at a time)
         </label>
         <br></br><br></br>
         <textarea 

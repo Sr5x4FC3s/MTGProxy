@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { postDeck }         from '../../helperFunc/helper.js';
+import { postDeck }         from '../../helperFunctions/helper.js';
 
 import InputField from '../components/builderComponents/deckInputField.jsx';
 import List       from '../components/builderComponents/list.jsx';
@@ -17,22 +17,16 @@ export default class DeckBuilder extends Component {
   
   handleChange(e) {
     console.log(e.target.value);
-    console.log(typeof(e.target.value));
     this.setState({
       deckList : e.target.value
     });
   }
 
   onSubmit(e) {
-    this.setState({
-      deckList : e.target.value
-    });
-
     postDeck(this.state);
     //need to add a function that clears the text area after submission************
 
     e.preventDefault();
-
   }
 
   render() {

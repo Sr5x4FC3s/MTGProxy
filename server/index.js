@@ -1,7 +1,8 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const cors = require('cors');
+const express     = require('express');
+const bodyParser  = require('body-parser');
+const path        = require('path');
+const cors        = require('cors');
+const SHF         = require('../helperFunctions/serverHelperFunctions/helper.js');
 // const db = require('mongodb');
 const PORT = 3003;
 
@@ -22,7 +23,11 @@ app.get('*', function(req, res) {
 app.post('/decksubmission', (request, response) => {
   let id = request.params.id;
   let data = request.body;
-  console.log(data, 'data some sort has been received in the server');
+  let deckData = data.deckList;
+  let parsedData = SHF.parseColons(deckData);
+
+  console.log(`these cards have been received in the server:`, data.deckList);
+  console.log(parsedData);
 })
 
 app.listen(PORT, () => { console.log(`server is connected to port ${PORT}`)});
