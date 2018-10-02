@@ -3,3 +3,6 @@
 
 ##bundle JS
 /dist/bundle.js
+
+##vscode
+/.vscode

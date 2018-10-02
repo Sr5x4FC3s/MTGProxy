@@ -19,4 +19,10 @@ app.get('*', function(req, res) {
   res.sendFile(path.resolve('dist', 'index.html'));
 });
 
+app.post('/decksubmission', (request, response) => {
+  let id = request.params.id;
+  let data = request.body;
+  console.log(data, 'data some sort has been received in the server');
+})
+
 app.listen(PORT, () => { console.log(`server is connected to port ${PORT}`)});
