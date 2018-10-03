@@ -25,12 +25,11 @@ app.post('/decksubmission', (request, response) => {
   let data = request.body;
   let deckData = data.deckList;
   let arrayData = SHF.convertString(deckData);
-
-  console.log(`these cards have been received in the server:`, data.deckList);
-  console.log(arrayData);
-
-  SHF.getRequest(arrayData);
-
+  let temporaryFound = SHF.getRequest(arrayData).then((results) => {
+    console.log('Found Cards: ', results);
+    return results;
+  });
+  //add information to the db => next get request, check the db first and if it exists, pull the information, else do another api call to get missing card data
 })
 
 app.listen(PORT, () => { console.log(`server is connected to port ${PORT}`)});

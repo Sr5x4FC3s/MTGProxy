@@ -9,16 +9,37 @@ module.exports = {
   },
   getRequest: (array) => {
     let data = array;
+    let findCards = findData(data);
+    let foundCards = Promise.resolve(findData(data)).then((foundCards) => {
+      console.log(foundCards, 'yoyoy');
+    });
     console.log('searching for these cards : ', data);
 
-    data.forEach(cardName => {
-      mtg.card.where({name: cardName.trim()})
+    return findCards;
+  }
+};
+
+const findData = (array) => {
+  let data = array;
+  let foundCards = [];
+
+  return new Promise(resolve => {
+    for (let i = 0; i < data.length; i++) {
+      mtg.card.where({name: data[i].trim()})
       .then((results) => {
-        console.log(results)
+        foundCards.push(results[0]);
+        console.log('then', foundCards);
+        if (foundCards.length === data.length) {
+          resolve(foundCards);
+          console.log('found: ', foundCards);
+          return foundCards;
+        } else {
+          console.log('Still Searching...');
+        }
       })
       .catch((err) => {
         console.log(err);
       })
-    })
-  }
-};
+    }
+  })
+}
