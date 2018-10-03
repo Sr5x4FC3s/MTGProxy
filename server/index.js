@@ -24,10 +24,13 @@ app.post('/decksubmission', (request, response) => {
   let id = request.params.id;
   let data = request.body;
   let deckData = data.deckList;
-  let parsedData = SHF.parseColons(deckData);
+  let arrayData = SHF.convertString(deckData);
 
   console.log(`these cards have been received in the server:`, data.deckList);
-  console.log(parsedData);
+  console.log(arrayData);
+
+  SHF.getRequest(arrayData);
+
 })
 
 app.listen(PORT, () => { console.log(`server is connected to port ${PORT}`)});
