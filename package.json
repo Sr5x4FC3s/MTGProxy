@@ -27,6 +27,8 @@
     "bluebird": "^3.5.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "mongodb": "^3.0.8",
+    "mongoose": "^5.3.1",
     "mtgsdk": "^0.4.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",

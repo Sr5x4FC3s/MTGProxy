@@ -2,16 +2,33 @@ const axios    = require('axios');
 const React    = require('react');
 const bluebird = require('bluebird');
 
-export const postDeck = (state) => {
+//function is used to send a string to the server to be processed
+export const postCards = (state) => {
   let data = state;
-  console.log(state);
-  console.log(data);
-  //will need to add an ID for each deck submission so they can be tracked in the database
-  axios.post(`/decksubmission`, data)
+  console.log('from postcard func, this is state: ', data)
+
+  return axios.post(`/cardsubmission`, data)
     .then((response) => {
-      console.log(response);
+      console.log('Cards have been found!', response.data);
     })
     .catch((error) => {
       console.log(error);
     });
 };
+
+//function is used to send a query to the database
+export const queryCards = (state) => {
+  let data = state;
+  let arrayString = state.deckList;
+
+  console.log('querying them cards', state);
+  return axios.get(`/cardretrieval/${arrayString}`, data)
+    .then(response => {
+      console.log('axios get request was successful');
+      console.log('Cards have been retrieved from database!', response.data);
+      // return response.data;
+    })
+    .catch(error => {
+      console.log('error',error);
+    })
+}
