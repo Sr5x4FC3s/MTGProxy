@@ -1,16 +1,15 @@
 import React from 'react';
+import { convertString, removeWhiteSpaces } from '../../../helperFunctions/clientHelperFunctions/helper.js';
 
-const List = () => {
+const List = (props) => {
+  let convertColons = convertString(props.deckList);
+  let whiteSpacesRemoved = removeWhiteSpaces(convertColons);
+
   return (
-    <div>
-      <h1>List Mock Place Holder</h1>
-      <br></br><br></br>
-      <ul>
-        <li>cards placeholder</li>
-        <li>cards placeholder</li>
-        <li>cards placeholder</li>
-        <li>cards placeholder</li>
-      </ul>
+    <div className='card-names'>
+      {whiteSpacesRemoved.map(name => (
+        <li name={name} key={name}>{name}</li>
+      ))}
     </div>
   )
 };

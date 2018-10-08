@@ -31,4 +31,19 @@ export const queryCards = (state) => {
     .catch(error => {
       console.log('error',error);
     })
-}
+};
+
+export const convertString = (string) => {
+  let nameArray = string.split(':');
+  return nameArray;
+};
+
+export const removeWhiteSpaces = (array) => {
+  let nameArray = [];
+
+  for (let i = 0; i < array.length; i++) {
+    nameArray.push(array[i].trim());
+  }
+  
+  return nameArray;
+};

@@ -1,8 +1,8 @@
 import React, { Component }      from "react";
 import { postCards, queryCards } from '../../helperFunctions/clientHelperFunctions/helper.js';
 
-import InputField from '../components/builderComponents/deckInputField.jsx';
-import List       from '../components/builderComponents/list.jsx';
+import InputField    from '../components/builderComponents/deckInputField.jsx';
+import ListContainer from '../components/builderComponents/listComponent.jsx';
 
 
 export default class DeckBuilder extends Component {
@@ -10,7 +10,7 @@ export default class DeckBuilder extends Component {
     super(props);
     this.state = {
       deckList : '', 
-      foundCards : null
+      foundCards : []
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -37,7 +37,8 @@ export default class DeckBuilder extends Component {
   handleChange(e) {
     console.log(e.target.value);
     this.setState({
-      deckList : e.target.value
+      deckList : e.target.value,
+      foundCards : []
     });
   }
 
@@ -53,7 +54,9 @@ export default class DeckBuilder extends Component {
         This is the deck builder page.
         <InputField deckList={this.state} handleChange={this.handleChange} onSubmit={this.onSubmit}/>
         <br></br><br></br><br></br>
-        <List />
+        <div>
+          <ListContainer deckList={this.state}/>
+        </div>
       </div>
     );
   }
