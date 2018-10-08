@@ -22,6 +22,7 @@ const queryDatabase = (array) => {
   let data = array;
   let foundCards = Promise.resolve(findData('SEARCH_DB_FOR_CARDS', data)).then((foundCards) => {
     console.log('these are found cards', foundCards);
+    return (foundCards);
   });
   return foundCards;
 }

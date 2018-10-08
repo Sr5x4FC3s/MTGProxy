@@ -25,7 +25,7 @@ export const queryCards = (state) => {
   return axios.get(`/cardretrieval/${arrayString}`, data)
     .then(response => {
       console.log('axios get request was successful');
-      console.log('Cards have been retrieved from database!', response.data);
+      console.log('Cards have been retrieved from database!', response);
       // return response.data;
     })
     .catch(error => {
