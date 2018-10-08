@@ -1,8 +1,9 @@
 import React, { Component }      from "react";
 import { postCards, queryCards } from '../../helperFunctions/clientHelperFunctions/helper.js';
 
-import InputField    from '../components/builderComponents/deckInputField.jsx';
-import ListContainer from '../components/builderComponents/listComponent.jsx';
+import InputField     from '../components/builderComponents/deckInputField.jsx';
+import ListContainer  from '../components/builderComponents/listComponent.jsx';
+import DeckCounter    from '../components/builderComponents/deckCounter.jsx';
 
 
 export default class DeckBuilder extends Component {
@@ -54,6 +55,11 @@ export default class DeckBuilder extends Component {
         This is the deck builder page.
         <InputField deckList={this.state} handleChange={this.handleChange} onSubmit={this.onSubmit}/>
         <br></br><br></br><br></br>
+        <div>
+          <h3>Number of cards in deck :</h3>
+          <DeckCounter deckList={this.state} />
+        </div>
+        <br></br><br></br>
         <div>
           <ListContainer deckList={this.state}/>
         </div>
