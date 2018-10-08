@@ -26,7 +26,7 @@ export const queryCards = (state) => {
     .then(response => {
       console.log('axios get request was successful');
       console.log('Cards have been retrieved from database!', response);
-      // return response.data;
+      return response;
     })
     .catch(error => {
       console.log('error',error);
