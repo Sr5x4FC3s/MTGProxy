@@ -8,7 +8,7 @@ const List = (props) => {
   return (
     <div className='card-names'>
       {whiteSpacesRemoved.map(name => (
-        <li name={name} key={name}>{name}</li>
+        <li><a name={name} key={name} onClick={props.toggle} style={{cursor: 'pointer'}}>{name}</a></li>
       ))}
     </div>
   )
