@@ -1,5 +1,5 @@
 import React, { Component }      from "react";
-import { postCards, queryCards } from '../../helperFunctions/helper.js';
+import { postCards, queryCards } from '../../helperFunctions/clientHelperFunctions/helper.js';
 
 import InputField from '../components/builderComponents/deckInputField.jsx';
 import List       from '../components/builderComponents/list.jsx';
@@ -27,7 +27,6 @@ export default class DeckBuilder extends Component {
       })
     }).then((result) => {
       let data = result;
-      console.log('returned server data : ', result);
       this.setState({
         foundCards: result.data
       })
