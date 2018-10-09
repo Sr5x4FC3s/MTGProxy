@@ -27,6 +27,7 @@ class ListContainer extends React.Component {
     this.setState({
       toggleModal: !this.state.toggleModal
     });
+    this.props.captureCard(e.target.id);
     e.preventDefault();
   }
 
@@ -34,11 +35,12 @@ class ListContainer extends React.Component {
     let cardList = this.props.deckList.currentDeck;
     let form = this.props.form;
     let deckSubmission = this.props.decksub;
+    let removeCard = this.props.delete;
     
     return (
       <div>
         <Dialog open={this.state.toggleModal} onClose={this.handleToggle}>
-          <Modal toggle={this.handleToggle}/>
+          <Modal toggle={this.handleToggle} delete={removeCard}/>
         </Dialog>
         <Dialog open={this.state.save} onClose={this.handleSave}>
           <DeckNameInput form={form} decksubmission={deckSubmission}/>

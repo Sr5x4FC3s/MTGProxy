@@ -1,5 +1,5 @@
 import React, { Component }      from "react";
-import { postCards, queryCards, convertString, removeWhiteSpaces } from '../../helperFunctions/clientHelperFunctions/helper.js';
+import { postCards, queryCards, convertString, removeWhiteSpaces, removeCardFromList } from '../../helperFunctions/clientHelperFunctions/helper.js';
 
 import InputField     from '../components/builderComponents/deckInputField.jsx';
 import ListContainer  from '../components/builderComponents/listComponent.jsx';
@@ -13,12 +13,15 @@ export default class DeckBuilder extends Component {
       deckList : '', 
       foundCards : [], 
       currentDeck : [],
-      deckName : ''
+      deckName : '',
+      deleteCard: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
     this.onDeckSubmission = this.onDeckSubmission.bind(this);
+    this.removeCardFromList = this.removeCardFromList.bind(this)
+    this.captureDeletionValue = this.captureDeletionValue.bind(this)
   }
 
   componentDidMount() {
@@ -37,6 +40,25 @@ export default class DeckBuilder extends Component {
       })
       console.log('the new state', this.state)
     });
+  }
+
+  captureDeletionValue(value) {
+    let card = value;
+    this.setState({
+      deleteCard: card
+    });
+  }
+
+  removeCardFromList(e) {
+    let cardName = this.state.deleteCard //clicked target id
+    console.log('the name bro', cardName);
+    let deckList = this.state.currentDeck;
+    let modifiedList = removeCardFromList(deckList, cardName);
+
+    this.setState({
+      currentDeck : modifiedList
+    });
+    e.preventDefault();
   }
 
   handleFormChange(e) {
@@ -92,7 +114,7 @@ export default class DeckBuilder extends Component {
         </div>
         <br></br><br></br>
         <div>
-          <ListContainer deckList={this.state} form={this.handleFormChange} decksub={this.onDeckSubmission}/>
+          <ListContainer deckList={this.state} form={this.handleFormChange} decksub={this.onDeckSubmission} delete={this.removeCardFromList} captureCard={this.captureDeletionValue}/>
         </div>
       </div>
     );

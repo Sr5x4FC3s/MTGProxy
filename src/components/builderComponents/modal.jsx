@@ -8,7 +8,7 @@ const Modal = (props) => {
         <tbody>
           <tr>
             <td>
-              <button>delete</button>
+              <button id="remove-card-button" onClick={props.delete}>delete</button>
             </td>
             <td>
               <button>save</button>

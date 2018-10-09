@@ -44,6 +44,12 @@ export const removeWhiteSpaces = (array) => {
   for (let i = 0; i < array.length; i++) {
     nameArray.push(array[i].trim());
   }
-  
   return nameArray;
 };
+
+export const removeCardFromList = (array, name) => {
+  let index = array.indexOf(name);
+  let copyArray = array.splice(index, 1);
+
+  return array;
+}

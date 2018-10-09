@@ -7,7 +7,7 @@ const List = (props) => {
   return (
     <div className='card-names'>
       {cardArray.map(name => (
-        <li><a name={name} key={name} onClick={props.toggle} style={{cursor: 'pointer'}}>{name}</a></li>
+        <li><a id={name} key={name} onClick={props.toggle} style={{cursor: 'pointer'}}>{name}</a></li>
       ))}
     </div>
   )
