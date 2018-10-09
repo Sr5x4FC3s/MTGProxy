@@ -1,9 +1,7 @@
 import React from 'react';
-import { convertString } from '../../../helperFunctions/clientHelperFunctions/helper.js';
-
 
 const DeckCounter = (props) => {
-  let deckCount = convertString(props.deckList.deckList).length;
+  let deckCount = props.deckList.currentDeck.length;
 
   return (
     <div className="deck-counter">{deckCount}</div>

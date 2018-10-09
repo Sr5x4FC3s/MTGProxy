@@ -18,7 +18,7 @@ const InputField = (props) => {
           onChange={props.handleChange}>
         </textarea>
         <br></br><br></br>
-        <input type="submit" value="Submit Cards" onClick={props.onSubmit}/>
+        <input type="submit" value="Add Cards" onClick={props.onSubmit}/>
         <input type="button" value="Clear"></input>
       </form>
     </div>

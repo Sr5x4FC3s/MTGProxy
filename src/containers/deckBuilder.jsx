@@ -1,5 +1,5 @@
 import React, { Component }      from "react";
-import { postCards, queryCards } from '../../helperFunctions/clientHelperFunctions/helper.js';
+import { postCards, queryCards, convertString, removeWhiteSpaces } from '../../helperFunctions/clientHelperFunctions/helper.js';
 
 import InputField     from '../components/builderComponents/deckInputField.jsx';
 import ListContainer  from '../components/builderComponents/listComponent.jsx';
@@ -11,10 +11,13 @@ export default class DeckBuilder extends Component {
     super(props);
     this.state = {
       deckList : '', 
-      foundCards : []
+      foundCards : [], 
+      currentDeck : [],
+      deckName : ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
   }
 
   componentDidMount() {
@@ -34,6 +37,12 @@ export default class DeckBuilder extends Component {
       console.log('the new state', this.state)
     });
   }
+
+  handleFormChange(e) {
+   this.setState({
+     deckName: e.target.value
+   });
+  }
   
   handleChange(e) {
     console.log(e.target.value);
@@ -43,10 +52,30 @@ export default class DeckBuilder extends Component {
     });
   }
 
+  onDeckSubmission() {
+    e.preventDefault();
+    //make post request with deck name and card names to be saved in database 
+    //create new schema and such as appropriate
+  }
+
   onSubmit(e) {
+    e.preventDefault();
     this.componentDidMount();
 
-    e.preventDefault();
+    let deckValue = this.state.currentDeck;
+    let addedCards = convertString(this.state.deckList);
+    let cardArray = removeWhiteSpaces(addedCards);
+
+    if (deckValue.length === 0) {
+      this.setState({
+        currentDeck : cardArray
+      })
+    } else if (deckValue.length > 0) {
+      let combinedCardList = deckValue.concat(cardArray);
+      this.setState({
+        currentDeck: combinedCardList
+      })
+    }
   }
 
   render() {
@@ -56,12 +85,12 @@ export default class DeckBuilder extends Component {
         <InputField deckList={this.state} handleChange={this.handleChange} onSubmit={this.onSubmit}/>
         <br></br><br></br><br></br>
         <div>
-          <h3>Number of cards in deck :</h3>
+          <div>Number of cards in deck :</div>
           <DeckCounter deckList={this.state} />
         </div>
         <br></br><br></br>
         <div>
-          <ListContainer deckList={this.state}/>
+          <ListContainer deckList={this.state} form={this.handleFormChange}/>
         </div>
       </div>
     );
