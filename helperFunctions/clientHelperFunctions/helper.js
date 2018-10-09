@@ -3,11 +3,11 @@ const React    = require('react');
 const bluebird = require('bluebird');
 
 //function is used to send a string to the server to be processed
-export const postCards = (state) => {
+export const postCards = (state, endPoint) => {
   let data = state;
   console.log('from postcard func, this is state: ', data)
 
-  return axios.post(`/cardsubmission`, data)
+  return axios.post(endPoint, data)
     .then((response) => {
       console.log('Cards have been found!', response.data);
     })

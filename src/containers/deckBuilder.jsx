@@ -18,11 +18,12 @@ export default class DeckBuilder extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
+    this.onDeckSubmission = this.onDeckSubmission.bind(this);
   }
 
   componentDidMount() {
     let retrieveData = new Promise ((resolve, reject) => {
-      let post = postCards(this.state);
+      let post = postCards(this.state, `/cardsubmission`);
       resolve(post);
     }).then((result) => {
       return new Promise ((resolve, reject) => {
@@ -52,10 +53,11 @@ export default class DeckBuilder extends Component {
     });
   }
 
-  onDeckSubmission() {
+  onDeckSubmission(e) {
     e.preventDefault();
     //make post request with deck name and card names to be saved in database 
     //create new schema and such as appropriate
+    let post = postCards(this.state, '/decksubmission');
   }
 
   onSubmit(e) {
@@ -90,7 +92,7 @@ export default class DeckBuilder extends Component {
         </div>
         <br></br><br></br>
         <div>
-          <ListContainer deckList={this.state} form={this.handleFormChange}/>
+          <ListContainer deckList={this.state} form={this.handleFormChange} decksub={this.onDeckSubmission}/>
         </div>
       </div>
     );

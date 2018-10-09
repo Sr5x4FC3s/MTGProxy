@@ -32,8 +32,8 @@ class ListContainer extends React.Component {
 
   render() {
     let cardList = this.props.deckList.currentDeck;
-    console.log('alalaalakfadf', this.props)
     let form = this.props.form;
+    let deckSubmission = this.props.decksub;
     
     return (
       <div>
@@ -41,7 +41,7 @@ class ListContainer extends React.Component {
           <Modal toggle={this.handleToggle}/>
         </Dialog>
         <Dialog open={this.state.save} onClose={this.handleSave}>
-          <DeckNameInput form={form}/>
+          <DeckNameInput form={form} decksubmission={deckSubmission}/>
         </Dialog>
         <ul>
           <div>Cards currently in deck</div>

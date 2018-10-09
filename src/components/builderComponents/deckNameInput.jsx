@@ -12,7 +12,7 @@ const DeckNameInput = (props) => {
           placeholder="Enter Deck Name"
           onChange={props.form}>
         </input >
-        <input type="submit" value="Save" onClick={() => {alert('this saved')}}></input>
+        <input type="submit" value="Save" onClick={props.decksubmission}></input>
       </form>
     </div>
   )

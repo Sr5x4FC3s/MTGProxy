@@ -43,6 +43,13 @@ app.post('/cardsubmission', (req, res) => {
   res.status(200).send('Posted Data');
 })
 
+app.post('/decksubmission', (req, res) => {
+  let deckList = req.body.currentDeck; //['String']
+  let deckName = req.body.deckName; //'String' 
+
+  res.status(200).send('Deck is posted');
+})
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve('dist', 'index.html'));
 });
