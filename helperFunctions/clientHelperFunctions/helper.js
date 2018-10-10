@@ -29,7 +29,7 @@ export const queryCards = (state) => {
       return response;
     })
     .catch(error => {
-      console.log('error',error);
+      console.log(error);
     })
 };
 
@@ -41,7 +41,18 @@ export const grabImage = (card) => {
     return response;
   })
   .catch(error => {
-    console.log('error', error);
+    console.log(error);
+  })
+};
+
+export const grabInformation = (card) => {
+  return axios.get(`/informationretrieval/${card}`, card)
+  .then(response => {
+    console.log('card information pinged', response);
+    return response;
+  })
+  .catch(error => {
+    console.log(error);
   })
 };
 
@@ -64,4 +75,4 @@ export const removeCardFromList = (array, name) => {
   let copyArray = array.splice(index, 1);
 
   return array;
-}
+};

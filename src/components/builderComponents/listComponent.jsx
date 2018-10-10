@@ -5,8 +5,9 @@ import Dialog from '@material-ui/core/Dialog';
 import Modal from './modal.jsx';
 import DeckNameInput from './deckNameInput.jsx';
 import CardImageModal from './cardImage.jsx';
+import CardInfo from './cardInfo.jsx';
 
-import { grabImage } from '../../../helperFunctions/clientHelperFunctions/helper.js';
+import { grabImage, grabInformation } from '../../../helperFunctions/clientHelperFunctions/helper.js';
 
 class ListContainer extends React.Component {
   constructor(props) {
@@ -15,13 +16,31 @@ class ListContainer extends React.Component {
       toggleModal : false,
       save : false, 
       toggledImage : false,
+      toggleInfo : false,
       targetCard: null,
-      targetCardImageUrl : null
+      targetCardImageUrl : null,
+      targetCardInfo : null
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleImageToggle = this.handleImageToggle.bind(this);
     this.grabCardId = this.grabCardId.bind(this);
+    this.handleInfoToggle = this.handleInfoToggle.bind(this);
+  }
+
+  handleInfoToggle(e) {
+    let promise = new Promise((resolve, reject) => {
+      let card = grabInformation(this.state.targetCard);
+      resolve(card);
+    }).then((result) => {
+      this.setState({
+        toggleInfo:!this.state.toggleInfo,
+        targetCardInfo : result.data
+      });
+      return result;
+    });
+
+    e.preventDefault();
   }
   
   grabCardId(id) {
@@ -70,17 +89,22 @@ class ListContainer extends React.Component {
     let form = this.props.form;
     let deckSubmission = this.props.decksub;
     let removeCard = this.props.delete;
+
+    console.log('dsdsedssdsdsfdsfsdfdsfsdfsdfsdfsd', this.state.toggleInfo)
     
     return (
       <div>
         <Dialog open={this.state.toggleModal} onClose={this.handleToggle}>
-          <Modal toggle={this.handleToggle} delete={removeCard} toggleImage={this.handleImageToggle}/>
+          <Modal toggle={this.handleToggle} delete={removeCard} toggleImage={this.handleImageToggle} toggleInfo={this.handleInfoToggle}/>
         </Dialog>
         <Dialog open={this.state.save} onClose={this.handleSave}>
           <DeckNameInput form={form} decksubmission={deckSubmission}/>
         </Dialog>
         <Dialog open={this.state.toggledImage} onClose={this.handleImageToggle}>
           <CardImageModal state={this.state}/>
+        </Dialog>
+        <Dialog open={this.state.toggleInfo} onClose={this.handleInfoToggle}>
+          <CardInfo state={this.state}/>
         </Dialog>
         <ul>
           <div>Cards currently in deck</div>

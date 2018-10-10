@@ -62,8 +62,26 @@ const findData = (id, array) => {
   }
 };
 
+const parse4Info = (object) => {
+  let newObject = {};
+
+  if (object[0].colors.length === 0) {
+    newObject.colors = ['colorless'];
+  } else {
+    newObject.colors = object[0].colors;
+  }
+  newObject.type = object[0].type;
+  newObject.legalities = object[0].legalities;
+  newObject.name = object[0].name;
+  newObject.manaCost = object[0].manaCost;
+  newObject.text = object[0].text;
+
+  return newObject;
+}
+
 module.exports = {
   convertString: convertString,
   getRequest: getRequest, 
-  queryDatabase: queryDatabase
+  queryDatabase: queryDatabase, 
+  parse4Info : parse4Info
 };

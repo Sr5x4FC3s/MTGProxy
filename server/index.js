@@ -47,10 +47,29 @@ app.get('/imageretrieval/:card', (req, res) => {
   }).then((result) => {
     return new Promise((resolve, reject) => {
       let collectedData = result;
-      console.log('nutted', collectedData)
       resolve(collectedData[0].imageUrl);
     }).then((result) => {
       res.status(200).send(result);
+    })
+  })
+})
+
+app.get(`/informationretrieval/:card`, (req, res) => {
+  let data = req.params.card;
+  let arrayName = [data];
+
+  let promise = new Promise((resolve, reject) => {
+    let queried = SHF.queryDatabase(arrayName);
+    resolve(queried);
+  }).then((result) => {
+    return new Promise((resolve, reject) => {
+      let collectedData = result;
+      console.log("second coming of fat albert", result);
+      resolve(result);
+    }).then((result) => {
+      let data = SHF.parse4Info(result);
+      console.log('heard you like fat albert',data);
+      res.status(200).send(data);
     })
   })
 })
