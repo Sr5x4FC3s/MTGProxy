@@ -2,6 +2,7 @@ import React from 'react';
 import FormatLegality from './formatLegality.jsx';
 
 const CardInfo = (props) => {
+  console.log(props.state.targetCardInfo.legalities)
   return(
     <div>
       <div>Name: {props.state.targetCardInfo.name}</div>
