@@ -33,6 +33,18 @@ export const queryCards = (state) => {
     })
 };
 
+//refactor eventually to combine this function and queryCards -> very similar
+export const grabImage = (card) => {
+  return axios.get(`/imageretrieval/${card}`, card)
+  .then(response => {
+    console.log('grab image pinged');
+    return response;
+  })
+  .catch(error => {
+    console.log('error', error);
+  })
+};
+
 export const convertString = (string) => {
   let nameArray = string.split(':');
   return nameArray;

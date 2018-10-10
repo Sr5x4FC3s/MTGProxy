@@ -37,8 +37,9 @@ export default class DeckBuilder extends Component {
       let data = result;
       this.setState({
         foundCards: result.data
-      })
+      });
       console.log('the new state', this.state)
+      document.getElementById('deck-builder-form').reset();
     });
   }
 
@@ -50,8 +51,7 @@ export default class DeckBuilder extends Component {
   }
 
   removeCardFromList(e) {
-    let cardName = this.state.deleteCard //clicked target id
-    console.log('the name bro', cardName);
+    let cardName = this.state.deleteCard;
     let deckList = this.state.currentDeck;
     let modifiedList = removeCardFromList(deckList, cardName);
 

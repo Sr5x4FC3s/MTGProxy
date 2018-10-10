@@ -37,6 +37,24 @@ app.get('/cardretrieval/:cardarray', (req, res) => {
   })
 })
 
+app.get('/imageretrieval/:card', (req, res) => {
+  let data = req.params.card;
+  let arrayName = [data];
+
+  let promise = new Promise((resolve, reject) => {
+    let queried = SHF.queryDatabase(arrayName);
+    resolve(queried);
+  }).then((result) => {
+    return new Promise((resolve, reject) => {
+      let collectedData = result;
+      console.log('nutted', collectedData)
+      resolve(collectedData[0].imageUrl);
+    }).then((result) => {
+      res.status(200).send(result);
+    })
+  })
+})
+
 app.post('/cardsubmission', (req, res) => {
   let data = SHF.convertString(req.body.deckList); // ['String']
   let promise = SHF.getRequest(data);

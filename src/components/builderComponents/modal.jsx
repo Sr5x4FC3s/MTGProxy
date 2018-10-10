@@ -11,13 +11,10 @@ const Modal = (props) => {
               <button id="remove-card-button" onClick={props.delete}>delete</button>
             </td>
             <td>
-              <button>save</button>
-            </td>
-            <td>
               <button>card information</button>
             </td>
             <td>
-              <button>card image</button>
+              <button id="card-image" onClick={props.toggleImage}>card image</button>
             </td>
           </tr>
         </tbody>
