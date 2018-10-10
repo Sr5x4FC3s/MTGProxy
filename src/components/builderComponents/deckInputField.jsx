@@ -19,7 +19,7 @@ const InputField = (props) => {
         </textarea>
         <br></br><br></br>
         <input type="submit" value="Add Cards" onClick={props.onSubmit}/>
-        <input type="button" value="Clear"></input>
+        <input type="button" value="Clear" onClick={() => { document.getElementById('deck-builder-form').reset() }}></input>
       </form>
     </div>
   )
