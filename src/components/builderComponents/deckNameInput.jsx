@@ -12,6 +12,12 @@ const DeckNameInput = (props) => {
           placeholder="Enter Deck Name"
           onChange={props.form}>
         </input >
+        <input
+          id="deck-type-field"
+          form="deck-name-form"
+          placeholder="Enter Deck Type ie:Commander, Standard, ..."
+          onChange={props.type}>
+        </input >
         <input type="submit" value="Save" onClick={props.decksubmission}></input>
       </form>
     </div>

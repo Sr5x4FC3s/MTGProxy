@@ -14,14 +14,16 @@ export default class DeckBuilder extends Component {
       foundCards : [], 
       currentDeck : [],
       deckName : '',
+      deckType: '',
       deleteCard: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
     this.onDeckSubmission = this.onDeckSubmission.bind(this);
-    this.removeCardFromList = this.removeCardFromList.bind(this)
-    this.captureDeletionValue = this.captureDeletionValue.bind(this)
+    this.removeCardFromList = this.removeCardFromList.bind(this);
+    this.captureDeletionValue = this.captureDeletionValue.bind(this);
+    this.handleFormType = this.handleFormType.bind(this);
   }
 
   componentDidMount() {
@@ -62,9 +64,15 @@ export default class DeckBuilder extends Component {
   }
 
   handleFormChange(e) {
-   this.setState({
-     deckName: e.target.value
-   });
+    this.setState({
+      deckName: e.target.value
+    });
+  }
+
+  handleFormType(e) {
+    this.setState({
+      deckType: e.target.value
+    });
   }
   
   handleChange(e) {
@@ -114,7 +122,7 @@ export default class DeckBuilder extends Component {
         </div>
         <br></br><br></br>
         <div>
-          <ListContainer deckList={this.state} form={this.handleFormChange} decksub={this.onDeckSubmission} delete={this.removeCardFromList} captureCard={this.captureDeletionValue}/>
+          <ListContainer deckList={this.state} form={this.handleFormChange} decksub={this.onDeckSubmission} delete={this.removeCardFromList} captureCard={this.captureDeletionValue} type ={this.handleFormType}/>
         </div>
       </div>
     );

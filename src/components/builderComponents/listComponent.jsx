@@ -89,8 +89,7 @@ class ListContainer extends React.Component {
     let form = this.props.form;
     let deckSubmission = this.props.decksub;
     let removeCard = this.props.delete;
-
-    console.log('dsdsedssdsdsfdsfsdfdsfsdfsdfsdfsd', this.state.toggleInfo)
+    let formType = this.props.type;
     
     return (
       <div>
@@ -98,7 +97,7 @@ class ListContainer extends React.Component {
           <Modal toggle={this.handleToggle} delete={removeCard} toggleImage={this.handleImageToggle} toggleInfo={this.handleInfoToggle}/>
         </Dialog>
         <Dialog open={this.state.save} onClose={this.handleSave}>
-          <DeckNameInput form={form} decksubmission={deckSubmission}/>
+          <DeckNameInput form={form} decksubmission={deckSubmission} type={formType}/>
         </Dialog>
         <Dialog open={this.state.toggledImage} onClose={this.handleImageToggle}>
           <CardImageModal state={this.state}/>

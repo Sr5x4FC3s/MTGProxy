@@ -40,7 +40,18 @@ let exportSchema = () => {
 };
 
 
+//additional schema for deck entries
+let exportSchema2 = () => {
+  let cardSchema = new mongoose.Schema({
+    name: {type: String, lowercase: true, required: true, index: {unique: true, sparse: false}},
+    list : [String], 
+    type: String
+  });
+  return cardSchema;
+};
+
 module.exports = {
   cardEntry : cardEntry,
-  exportSchema : exportSchema
+  exportSchema : exportSchema,
+  exportSchema2 : exportSchema2
 };

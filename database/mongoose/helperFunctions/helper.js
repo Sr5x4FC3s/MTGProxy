@@ -1,16 +1,25 @@
 const schema = require('../schema.js');
 
 const cardSchema = schema.exportSchema();
+const deckSchema = schema.exportSchema2(); // new schema
 const Model = schema.cardEntry('Card', cardSchema);
+const Model2 = schema.cardEntry('Deck', deckSchema); // new model
 
-const createNewObjects = (data) => {
+const createNewObjects = (data, model, model2) => {
   let modelArray = [];
-
-  for (let j = 0; j < data.length; j++) {
-    let card = new Model(data[j]);
-    modelArray.push(card);
+  if (model2 === undefined) {
+    for (let j = 0; j < data.length; j++) {
+      let card = new model(data[j]);
+      modelArray.push(card);
+    }
+    return modelArray;
+  } else if (model === undefined) {
+    for (let i = 0; i < data.length; i++) {
+      let card = new model2(data[i]);
+      modelArray.push(card);
+    }
+    return modelArray;
   }
-  return modelArray;
 }
 
 const save = (array) => {
@@ -28,8 +37,8 @@ const save = (array) => {
 
 const insert = (data) => {
   let promise = new Promise ((resolve, reject) => {
-    let newData = createNewObjects(data);
-    resolve(newData)
+    let newData = createNewObjects(data, Model);
+    resolve(newData);
   }).then((result) => {
     return new Promise ((resolve, reject) => {
       let saveData = save(result);
@@ -37,6 +46,24 @@ const insert = (data) => {
     })
   }).then((result) => {
     console.log('data has been saved successfully to database and last of the promise chain has been reached');
+  })
+
+  return promise;
+};
+
+//combine insert and insertDeck => use a string id to verify which data is being passed
+const insertDeck = (data) => {
+  // let data2submit = createObjectConvertArray(undefined, undefined, undefined);
+  let promise = new Promise ((resolve, reject) => {
+    let newData = createNewObjects(data, undefined, Model2);
+    resolve(newData);
+  }).then((result) => {
+    return new Promise ((resolve, reject) => {
+      let saveData = save(result);
+      resolve(saveData);
+    })
+  }).then((result) => {
+    console.log('deck has been saved successfully to database and last of the promise chain has been reached');
   })
 
   return promise;
@@ -62,7 +89,6 @@ const queryName = (data) => {
     }
     resolve(queryDatabase());
   }).then((result) => {
-    console.log('results from queried database from within promise', result);
     return result;
   })
   return promise;
@@ -71,12 +97,12 @@ const queryName = (data) => {
 const query = (array) => {
   let query = Model.find({name : { $in : array}})
   let promise = query.exec();
-  console.log('did this really exec promise?', promise);
   return promise;
 }
 
 module.exports = {
   insertInstance : insert,
   insertModel : anotherInsert,
-  queryName : queryName
+  queryName : queryName,
+  insertDeck : insertDeck
 };

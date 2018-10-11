@@ -13,7 +13,7 @@ const convertString = (string) => {
 const getRequest = (array) => {
   let data = array;
   let foundCards = Promise.resolve(findData('ADD_CARDS_TO_DB', data)).then((foundCards) => {
-    console.log('inserted these: ', foundCards);
+    console.log('inserted cards');
   });
   return foundCards;
 }
@@ -21,10 +21,31 @@ const getRequest = (array) => {
 const queryDatabase = (array) => {
   let data = array;
   let foundCards = Promise.resolve(findData('SEARCH_DB_FOR_CARDS', data)).then((foundCards) => {
-    console.log('these are found cards', foundCards);
     return (foundCards);
   });
   return foundCards;
+}
+
+const createObjectConvertArray = (name, list, type) => {
+  let deckObject = {};
+  let deckArray = [];
+
+  deckObject.name = name;
+  deckObject.list = list;
+  deckObject.type = type;
+
+  deckArray.push(deckObject);
+
+  return deckArray;
+};
+
+const submitDeck = (name, deck, type) => {
+  let deckArray = createObjectConvertArray(name, deck, type);
+
+  let promise = Promise.resolve((findData('SUBMIT_DECK', deckArray)).then((result) => {
+    console.log('inserted this deck: ', result);
+  }));
+  return promise;
 }
 
 const findData = (id, array) => {
@@ -56,8 +77,14 @@ const findData = (id, array) => {
       let theQuery = querydb(data)
       resolve(theQuery);
     }).then((result) => {
-      console.log('do i get a results? ', result)
       return result;
+    })
+  } else if (id === 'SUBMIT_DECK') {
+    return new Promise(resolve => {
+      let insertDeck = mh.insertDeck(data);
+      resolve(insertDeck);
+    }).then((result) => {
+      console.log('done with deck insert');
     })
   }
 };
@@ -83,5 +110,6 @@ module.exports = {
   convertString: convertString,
   getRequest: getRequest, 
   queryDatabase: queryDatabase, 
-  parse4Info : parse4Info
+  parse4Info : parse4Info, 
+  submitDeck : submitDeck
 };

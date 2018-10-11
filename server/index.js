@@ -64,11 +64,9 @@ app.get(`/informationretrieval/:card`, (req, res) => {
   }).then((result) => {
     return new Promise((resolve, reject) => {
       let collectedData = result;
-      console.log("second coming of fat albert", result);
       resolve(result);
     }).then((result) => {
       let data = SHF.parse4Info(result);
-      console.log('heard you like fat albert',data);
       res.status(200).send(data);
     })
   })
@@ -83,6 +81,10 @@ app.post('/cardsubmission', (req, res) => {
 app.post('/decksubmission', (req, res) => {
   let deckList = req.body.currentDeck; //['String']
   let deckName = req.body.deckName; //'String' 
+  let deckType = req.body.deckType; //'String'
+
+  //create data shape and insert to db
+  let promise = SHF.submitDeck(deckName, deckList, deckType);
 
   res.status(200).send('Deck is posted');
 })
