@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Modal = (props) => {
-  console.log("yefsedssdfsdsfsdcsdcds", props)
   return (
     <div>
       <table className="modal-button">

@@ -54,7 +54,7 @@ class ListContainer extends React.Component {
       toggleModal : !this.state.toggleModal,
       toggledImage : !this.state.toggledImage
     });
-    //now to make an axios get call and get card image and send back here
+     
     let promise = new Promise((resolve, reject) => {
       let card = grabImage(this.state.targetCard);
       resolve(card);

@@ -1,8 +1,6 @@
 import React from 'react';
 
 const InputField = (props) => {
-  console.log(props);
-  console.log(props.onSubmit);
   return (
     <div>
       <form id="deck-builder-form">
