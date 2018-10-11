@@ -76,3 +76,24 @@ export const removeCardFromList = (array, name) => {
 
   return array;
 };
+
+export const queryDeck = (string) => {
+  return axios.get(`/retrievedeck/${string}`, string)
+  .then(response => {
+    console.log('request has been made', response);
+    return response;
+  })
+  .catch(error => {
+    console.log(error);
+  })
+};
+
+export const query4AllDecks = () => {
+  return axios.get(`/retrieveAllDecks`)
+  .then(response => {
+    console.log('request has been made', response);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+};

@@ -1,47 +1,21 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      db : false,
-      dp : false
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    alert('this button has been clicked');
-    alert(e.target.id);
-    alert(typeof e.target.id)
-
-    if (e.target.id === 'builder-button') {
-      this.setState(state => ({
-        db : true,
-        dp : false
-      }));
-    }
-
-    if (e.target.id === 'player-button') {
-      this.setState(state => ({
-        db : false,
-        dp : true
-      }));
-    }
-
-    e.preventDefault();
+    this.state = {};
   }
 
   render() {
     console.log(this.state);
     return (
       <div id="home">
-        <h1>Home Page</h1>
         <div>
-          <button id="builder-button" onClick={this.handleClick}>Deck Builder</button>
+          <button id="builder-button"><Link to='/db'>Deck Builder</Link></button>
         </div>
         <div>
-          <button id="player-button" onClick={this.handleClick}>Deck Player</button>
+          <button id="player-button"><Link to='/dp'>Deck Player</Link></button> 
         </div>
       </div>
     );

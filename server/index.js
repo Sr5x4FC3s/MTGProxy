@@ -72,6 +72,20 @@ app.get(`/informationretrieval/:card`, (req, res) => {
   })
 })
 
+app.get(`/retrievedeck/:deck`, (req, res) => {
+  let data = req.params.deck;
+
+  console.log('i somehow got data back here', data);
+
+  res.status(200).send('hello there noob');
+})
+
+app.get(`/retrieveAllDecks`, (req, res) => {
+  console.log('all decks are pinged');
+  //get all decks and send them in an array back
+  res.status(200).send('ping tom ding');
+})
+
 app.post('/cardsubmission', (req, res) => {
   let data = SHF.convertString(req.body.deckList); // ['String']
   let promise = SHF.getRequest(data);
@@ -82,8 +96,6 @@ app.post('/decksubmission', (req, res) => {
   let deckList = req.body.currentDeck; //['String']
   let deckName = req.body.deckName; //'String' 
   let deckType = req.body.deckType; //'String'
-
-  //create data shape and insert to db
   let promise = SHF.submitDeck(deckName, deckList, deckType);
 
   res.status(200).send('Deck is posted');
