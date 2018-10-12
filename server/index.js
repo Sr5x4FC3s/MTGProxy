@@ -74,16 +74,34 @@ app.get(`/informationretrieval/:card`, (req, res) => {
 
 app.get(`/retrievedeck/:deck`, (req, res) => {
   let data = req.params.deck;
+  let data2Array = [data];
 
-  console.log('i somehow got data back here', data);
-
-  res.status(200).send('hello there noob');
+  let promise = new Promise((resolve, reject) => {
+    let query = SHF.retrieveOneDeck(data2Array);
+    resolve(query);
+  }).then(result => {
+    return new Promise((resolve, reject) => {
+      let deck = result;
+      resolve(deck);
+    }).then(result => {
+      res.status(200).send(result);
+    })
+  })
 })
 
 app.get(`/retrieveAllDecks`, (req, res) => {
-  console.log('all decks are pinged');
-  //get all decks and send them in an array back
-  res.status(200).send('ping tom ding');
+  let promise = new Promise((resolve, reject) => {
+    let query = SHF.retrieveAllDecks();
+    resolve(query);
+  }).then((result) => {
+    return new Promise ((resolve, reject) => {
+      let collectedDecks = result;
+      resolve(collectedDecks);
+    }).then((result) => {
+      //send the res back here
+      res.status(200).send(result);
+    })
+  });
 })
 
 app.post('/cardsubmission', (req, res) => {

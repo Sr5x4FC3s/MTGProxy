@@ -100,9 +100,54 @@ const query = (array) => {
   return promise;
 }
 
+const queryDecks = () => {
+  let query = Model2.find()
+  let promise = query.exec();
+  return promise;
+}
+
+const queryByDeckName = (deckName) => {
+  let query = Model2.find({name : deckName})
+  let promise = query.exec();
+
+  return promise;
+}
+
+const queryOneDeck = (name) => {
+  let promise = new Promise((resolve, reject) => {
+    let queryDatabase = () => {
+      return new Promise((resolve, reject) => {
+        let deck = queryByDeckName(name);
+        resolve(deck);
+      })
+    }
+    resolve(queryDatabase());
+  }).then(result => {
+    return result;
+  });
+  return promise;
+}
+
+const queryAllDecks = () => {
+  let promise = new Promise((resolve, reject) => {
+    let queryDatabase = () => {
+      return new Promise((resolve, reject) => {
+        let decks = queryDecks();
+        resolve(decks);
+      })
+    }
+    resolve(queryDatabase());
+  }).then(result => {
+    return result;
+  });
+  return promise;
+}
+
 module.exports = {
   insertInstance : insert,
   insertModel : anotherInsert,
   queryName : queryName,
-  insertDeck : insertDeck
+  insertDeck : insertDeck,
+  queryOneDeck : queryOneDeck,
+  queryAllDecks : queryAllDecks
 };

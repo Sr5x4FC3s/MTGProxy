@@ -10,12 +10,6 @@ const DeckPlayerButtons = (props) => {
       <div>
         <button id="deck-selector-button" onClick={props.handleToggleSelectDeck}>Select Deck</button>
       </div> 
-      <div>
-        <button id="virtual-player-button"><Link to="/dp/virtualplayer">Virtual PLayer</Link></button>
-      </div>
-      <div>
-        <button id="real-player-button"><Link to="/dp/realplayer">Real Player</Link></button>
-      </div>
     </div>
   )
 }

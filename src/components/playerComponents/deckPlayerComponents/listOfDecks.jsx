@@ -1,11 +1,14 @@
 import React from 'react';
 
 const ListofDecks = (props) => {
-
-  //fetch data from db to get deck lists and render them => make them clickable 
   return (
     <div>
-      this is the list of decks components
+      Select a deck :
+      {props.state.allDecks.map(deck => {
+        return (
+          <div><a id={deck.name} name={deck.name} onClick={props.selectdeck}>{deck.name}</a></div>
+        )
+      })}
     </div>
   )
 };

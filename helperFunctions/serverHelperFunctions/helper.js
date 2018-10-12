@@ -48,6 +48,22 @@ const submitDeck = (name, deck, type) => {
   return promise;
 }
 
+const retrieveOneDeck = (array) => {
+  let promise = Promise.resolve((findData('RETRIEVE_ONE_DECK',array)).then((result) => {
+    console.log('the deck', result);
+    return result;
+  }));
+  return promise;
+}
+
+const retrieveAllDecks = () => {
+  let promise = Promise.resolve((findData('RETRIEVE_ALL_DECKS')).then((result) => {
+    console.log('all decks: ', result);
+    return result;
+  }));
+  return promise;
+}
+
 const findData = (id, array) => {
   let data = array;
   let foundCards = [];
@@ -86,6 +102,22 @@ const findData = (id, array) => {
     }).then((result) => {
       console.log('done with deck insert');
     })
+  } else if (id === 'RETRIEVE_ALL_DECKS') {
+    return new Promise((resolve, reject) => {
+      let retrieveAllDecks = mh.queryAllDecks();
+      resolve(retrieveAllDecks);
+    }).then((result) => {
+      console.log('these are all the decks : ', result);
+      return result;
+    })
+  } else if (id === 'RETRIEVE_ONE_DECK') {
+    return new Promise((resolve, reject) => {
+      let retrieveOneDeck = mh.queryOneDeck(array[0]);
+      resolve(retrieveOneDeck);
+    }).then((result) => {
+      console.log('the queried deck :', result);
+      return result;
+    })
   }
 };
 
@@ -111,5 +143,7 @@ module.exports = {
   getRequest: getRequest, 
   queryDatabase: queryDatabase, 
   parse4Info : parse4Info, 
-  submitDeck : submitDeck
+  submitDeck : submitDeck, 
+  retrieveOneDeck : retrieveOneDeck,
+  retrieveAllDecks : retrieveAllDecks
 };
