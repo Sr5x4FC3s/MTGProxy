@@ -26,25 +26,6 @@ export default class DeckBuilder extends Component {
     this.handleFormType = this.handleFormType.bind(this);
   }
 
-  componentDidMount() {
-    let retrieveData = new Promise ((resolve, reject) => {
-      let post = postCards(this.state, `/cardsubmission`);
-      resolve(post);
-    }).then((result) => {
-      return new Promise ((resolve, reject) => {
-        let query = queryCards(this.state);
-        resolve(query);
-      })
-    }).then((result) => {
-      let data = result;
-      this.setState({
-        foundCards: result.data
-      });
-      console.log('the new state', this.state)
-      document.getElementById('deck-builder-form').reset();
-    });
-  }
-
   captureDeletionValue(value) {
     let card = value;
     this.setState({
@@ -78,8 +59,7 @@ export default class DeckBuilder extends Component {
   handleChange(e) {
     console.log(e.target.value);
     this.setState({
-      deckList : e.target.value,
-      foundCards : []
+      deckList : e.target.value
     });
   }
 
@@ -91,7 +71,26 @@ export default class DeckBuilder extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.componentDidMount();
+
+    let retrieveData = new Promise(resolve => {
+      let query = queryCards(this.state);
+      resolve(query);
+    }).then(result => {
+      let previouslyFoundCards = this.state.foundCards;
+
+      if (previouslyFoundCards.length === 0) {
+        this.setState({
+          foundCards: result.data
+        });
+      } else if(previouslyFoundCards.length > 0) {
+        let combineFoundCards = previouslyFoundCards.concat(result.data);
+        this.setState({
+          foundCards: combineFoundCards
+        });
+      }
+      console.log('state from submit cards button', this.state.foundCards);
+      document.getElementById('deck-builder-form').reset();
+    });
 
     let deckValue = this.state.currentDeck;
     let addedCards = convertString(this.state.deckList);

@@ -1,17 +1,20 @@
 import React from 'react';
+import { convertObject2Array } from '../../../helperFunctions/clientHelperFunctions/helper.js';
 
 const FormatLegality = (props) => {
-  let formatArray = props.props;
-  if (formatArray.length === 0) {
+  let legalitiesObject = props.props;
+  let legalitiesArray = convertObject2Array(legalitiesObject);
+
+  if (legalitiesArray.length === 0) {
     return (
       <div>Not legal in any format</div>
     );
   } else {
     return (
       <div className="format-legality-list">
-      {formatArray.map(legalities => (
-        <div name={legalities.format} key={legalities.format}>
-          <div>{legalities.format} => {legalities.legality}</div> 
+      {legalitiesArray.map(legalities => (
+        <div name={legalities} key={legalities}>
+          <div>{legalities}</div> 
         </div>
       ))}
       </div>

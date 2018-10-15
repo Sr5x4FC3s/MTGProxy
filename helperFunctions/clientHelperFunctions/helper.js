@@ -21,7 +21,6 @@ export const queryCards = (state) => {
   let data = state;
   let arrayString = state.deckList;
 
-  console.log('querying them cards', state);
   return axios.get(`/cardretrieval/${arrayString}`, data)
     .then(response => {
       console.log('axios get request was successful');
@@ -31,29 +30,6 @@ export const queryCards = (state) => {
     .catch(error => {
       console.log(error);
     })
-};
-
-//refactor eventually to combine this function and queryCards -> very similar
-export const grabImage = (card) => {
-  return axios.get(`/imageretrieval/${card}`, card)
-  .then(response => {
-    console.log('grab image pinged');
-    return response;
-  })
-  .catch(error => {
-    console.log(error);
-  })
-};
-
-export const grabInformation = (card) => {
-  return axios.get(`/informationretrieval/${card}`, card)
-  .then(response => {
-    console.log('card information pinged', response);
-    return response;
-  })
-  .catch(error => {
-    console.log(error);
-  })
 };
 
 export const convertString = (string) => {
@@ -108,4 +84,13 @@ export const grabObject = (array, targetDeckName) => {
     }
   }
   return selectedObject;
+};
+
+export const convertObject2Array = (object) => {
+  let array = [];
+
+  for (let key in object) {
+    array.push(`${key} : ${object[key]}`)
+  }
+  return array;
 };

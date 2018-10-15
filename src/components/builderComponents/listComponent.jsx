@@ -7,7 +7,7 @@ import DeckNameInput from './deckNameInput.jsx';
 import CardImageModal from './cardImage.jsx';
 import CardInfo from './cardInfo.jsx';
 
-import { grabImage, grabInformation } from '../../../helperFunctions/clientHelperFunctions/helper.js';
+import { grabImage } from '../../../helperFunctions/clientHelperFunctions/helper.js';
 
 class ListContainer extends React.Component {
   constructor(props) {
@@ -29,18 +29,15 @@ class ListContainer extends React.Component {
   }
 
   handleInfoToggle(e) {
-    let promise = new Promise((resolve, reject) => {
-      let card = grabInformation(this.state.targetCard);
-      resolve(card);
-    }).then((result) => {
-      this.setState({
-        toggleInfo:!this.state.toggleInfo,
-        targetCardInfo : result.data
-      });
-      return result;
-    });
-
-    e.preventDefault();
+    let passedState = this.props.deckList.foundCards;
+    for (let i = 0; i < passedState.length; i++) {
+      if (this.state.targetCard === this.props.deckList.foundCards[i].name) {
+        this.setState({
+          toggleInfo:!this.state.toggleInfo,
+          targetCardInfo: this.props.deckList.foundCards[i]
+        });
+      }
+    }
   }
   
   grabCardId(id) {
@@ -54,16 +51,15 @@ class ListContainer extends React.Component {
       toggleModal : !this.state.toggleModal,
       toggledImage : !this.state.toggledImage
     });
-     
-    let promise = new Promise((resolve, reject) => {
-      let card = grabImage(this.state.targetCard);
-      resolve(card);
-    }).then((result) => {
-      this.setState({
-        targetCardImageUrl : result.data
-      });
-      return result;
-    });
+
+    let passedState = this.props.deckList.foundCards;
+    for (let i = 0; i < passedState.length; i++) {
+      if (this.state.targetCard === this.props.deckList.foundCards[i].name) {
+        this.setState({
+          targetCardImageUrl: this.props.deckList.foundCards[i].data[0].image_uris.border_crop
+        });
+      }
+    }
 
     e.preventDefault();
   }

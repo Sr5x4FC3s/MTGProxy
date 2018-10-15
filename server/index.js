@@ -28,49 +28,13 @@ app.get('/cardretrieval/:cardarray', (req, res) => {
   }).then((result) => {
     return new Promise((resolve, reject) => {
       let collectedData = result;
-      console.log('queries results : ', result);
       resolve(collectedData);
     })
   }).then((result) => {
     console.log('collected data', result);
     res.status(200).send(result);
   })
-})
-
-app.get('/imageretrieval/:card', (req, res) => {
-  let data = req.params.card;
-  let arrayName = [data];
-
-  let promise = new Promise((resolve, reject) => {
-    let queried = SHF.queryDatabase(arrayName);
-    resolve(queried);
-  }).then((result) => {
-    return new Promise((resolve, reject) => {
-      let collectedData = result;
-      resolve(collectedData[0].imageUrl);
-    }).then((result) => {
-      res.status(200).send(result);
-    })
-  })
-})
-
-app.get(`/informationretrieval/:card`, (req, res) => {
-  let data = req.params.card;
-  let arrayName = [data];
-
-  let promise = new Promise((resolve, reject) => {
-    let queried = SHF.queryDatabase(arrayName);
-    resolve(queried);
-  }).then((result) => {
-    return new Promise((resolve, reject) => {
-      let collectedData = result;
-      resolve(result);
-    }).then((result) => {
-      let data = SHF.parse4Info(result);
-      res.status(200).send(data);
-    })
-  })
-})
+});
 
 app.get(`/retrievedeck/:deck`, (req, res) => {
   let data = req.params.deck;

@@ -2,8 +2,10 @@ const schema = require('../schema.js');
 
 const cardSchema = schema.exportSchema();
 const deckSchema = schema.exportSchema2(); // new schema
+const scrySchema = schema.exportScryfall();
 const Model = schema.cardEntry('Card', cardSchema);
 const Model2 = schema.cardEntry('Deck', deckSchema); // new model
+const Model3 = schema.cardEntry('Cards', scrySchema);
 
 const createNewObjects = (data, model, model2) => {
   let modelArray = [];
@@ -83,7 +85,7 @@ const queryName = (data) => {
   let promise = new Promise ((resolve, reject) => {
     let queryDatabase = () => {
       return new Promise((resolve, reject) => {
-        let things = query(data);
+        let things = queryScry(data);
         resolve(things);
       })
     }
@@ -105,6 +107,16 @@ const queryDecks = () => {
   let promise = query.exec();
   return promise;
 }
+
+//<--------- query pre seeded database ---------->
+
+const queryScry = (array) => {
+  let query = Model3.find({name : { $in : array}})
+  let promise = query.exec();
+  return promise;
+}
+
+//<--------- query by deck name ---------->
 
 const queryByDeckName = (deckName) => {
   let query = Model2.find({name : deckName})

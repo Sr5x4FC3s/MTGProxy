@@ -43,7 +43,7 @@ const submitDeck = (name, deck, type) => {
   let deckArray = createObjectConvertArray(name, deck, type);
 
   let promise = Promise.resolve((findData('SUBMIT_DECK', deckArray)).then((result) => {
-    console.log('inserted this deck: ', result);
+    console.log('inserted deck');
   }));
   return promise;
 }
@@ -93,6 +93,7 @@ const findData = (id, array) => {
       let theQuery = querydb(data)
       resolve(theQuery);
     }).then((result) => {
+      console.log('these are the searched cards and the data', result);
       return result;
     })
   } else if (id === 'SUBMIT_DECK') {
@@ -121,28 +122,10 @@ const findData = (id, array) => {
   }
 };
 
-const parse4Info = (object) => {
-  let newObject = {};
-
-  if (object[0].colors.length === 0) {
-    newObject.colors = ['colorless'];
-  } else {
-    newObject.colors = object[0].colors;
-  }
-  newObject.type = object[0].type;
-  newObject.legalities = object[0].legalities;
-  newObject.name = object[0].name;
-  newObject.manaCost = object[0].manaCost;
-  newObject.text = object[0].text;
-
-  return newObject;
-}
-
 module.exports = {
   convertString: convertString,
   getRequest: getRequest, 
   queryDatabase: queryDatabase, 
-  parse4Info : parse4Info, 
   submitDeck : submitDeck, 
   retrieveOneDeck : retrieveOneDeck,
   retrieveAllDecks : retrieveAllDecks
