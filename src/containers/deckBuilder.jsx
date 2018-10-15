@@ -84,10 +84,9 @@ export default class DeckBuilder extends Component {
   }
 
   onDeckSubmission(e) {
-    e.preventDefault();
-    //make post request with deck name and card names to be saved in database 
-    //create new schema and such as appropriate
+    // e.preventDefault();
     let post = postCards(this.state, '/decksubmission');
+    //will reset fields on submission
   }
 
   onSubmit(e) {

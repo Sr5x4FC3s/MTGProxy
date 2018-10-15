@@ -1,11 +1,26 @@
-import React from 'react';
+import React       from 'react';
+
+import BattleField from '../components/playerComponents/virtualPlayerComponents/battleField.jsx';
+import CommandZone from '../components/playerComponents/virtualPlayerComponents/commandZone.jsx';
+import Deck        from '../components/playerComponents/virtualPlayerComponents/deck.jsx';
+import Exiled      from '../components/playerComponents/virtualPlayerComponents/exiled.jsx';
+import Graveyard   from '../components/playerComponents/virtualPlayerComponents/graveyard.jsx';
+import LandArea    from '../components/playerComponents/virtualPlayerComponents/landsArea.jsx';
+import Hand        from '../components/playerComponents/virtualPlayerComponents/hand.jsx';
 
 export default class VirtualPlayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       passedState : null,
-      hasPassed : false
+      hasPassed : false,
+      hand : null,
+      battlefield : null,
+      commandzone : null,
+      deck : null,
+      exiled : null,
+      graveyard : null,
+      land : null
     };
   }
 
@@ -22,7 +37,15 @@ export default class VirtualPlayer extends React.Component {
   render() {
     console.log('virtual ', this.state);
     return (
-      <div>virtual player component</div>
+      <div>
+        <Hand />
+        <BattleField />
+        <CommandZone />
+        <Deck />
+        <Exiled />
+        <Graveyard />
+        <LandArea />
+      </div>
     )
   }
 };

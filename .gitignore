@@ -6,3 +6,6 @@
 
 ##vscode
 /.vscode
+
+##json data
+/database/mongoose/initialDBPrep/scryfallData/scryfall-oracle-cards.json
