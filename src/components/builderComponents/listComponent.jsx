@@ -19,7 +19,8 @@ class ListContainer extends React.Component {
       toggleInfo : false,
       targetCard: null,
       targetCardImageUrl : null,
-      targetCardInfo : null
+      targetCardInfo : null, 
+      targetCardCopies: 1
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -90,7 +91,7 @@ class ListContainer extends React.Component {
     return (
       <div>
         <Dialog open={this.state.toggleModal} onClose={this.handleToggle}>
-          <Modal toggle={this.handleToggle} delete={removeCard} toggleImage={this.handleImageToggle} toggleInfo={this.handleInfoToggle}/>
+          <Modal toggle={this.handleToggle} delete={removeCard} toggleImage={this.handleImageToggle} toggleInfo={this.handleInfoToggle} input={this.handleChange} increment={this.props.increment} props={this.state}/>
         </Dialog>
         <Dialog open={this.state.save} onClose={this.handleSave}>
           <DeckNameInput form={form} decksubmission={deckSubmission} type={formType}/>

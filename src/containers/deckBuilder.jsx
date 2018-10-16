@@ -15,7 +15,8 @@ export default class DeckBuilder extends Component {
       currentDeck : [],
       deckName : '',
       deckType: '',
-      deleteCard: null
+      deleteCard: null, 
+      deckCount: 0
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -24,6 +25,39 @@ export default class DeckBuilder extends Component {
     this.removeCardFromList = this.removeCardFromList.bind(this);
     this.captureDeletionValue = this.captureDeletionValue.bind(this);
     this.handleFormType = this.handleFormType.bind(this);
+    this.incrementDeckCount = this.incrementDeckCount.bind(this);
+  }
+
+  incrementDeckCount(target, e) {
+    let originalCount = this.state.deckCount;
+    let addCopies = [];
+    let originalDeck = this.state.currentDeck;
+
+    if (e === 'add-one-button') {
+      addCopies.push(target);
+      let total = originalCount + addCopies.length;
+      this.setState({
+        currentDeck: originalDeck.concat(addCopies),
+        deckCount: total
+      });
+    } else if (e === 'add-two-button') {
+      addCopies.push(target);
+      addCopies.push(target);
+      let total = originalCount + addCopies.length;
+      this.setState({
+        currentDeck: originalDeck.concat(addCopies),
+        deckCount: total
+      });
+    } else if (e === 'add-three-button') {
+      addCopies.push(target);
+      addCopies.push(target);
+      addCopies.push(target);
+      let total = originalCount + addCopies.length;
+      this.setState({
+        currentDeck: originalDeck.concat(addCopies),
+        deckCount: total
+      });
+    }
   }
 
   captureDeletionValue(value) {
@@ -37,9 +71,11 @@ export default class DeckBuilder extends Component {
     let cardName = this.state.deleteCard;
     let deckList = this.state.currentDeck;
     let modifiedList = removeCardFromList(deckList, cardName);
+    let count = this.state.deckCount - 1;
 
     this.setState({
-      currentDeck : modifiedList
+      currentDeck : modifiedList,
+      deckCount : count
     });
     e.preventDefault();
   }
@@ -72,6 +108,15 @@ export default class DeckBuilder extends Component {
   onSubmit(e) {
     e.preventDefault();
 
+    const checkDeckCount = () => {
+      let cardCount = this.state.deckCount;
+      let totalCount = cardCount + cardArray.length
+    
+      this.setState({
+        deckCount : totalCount
+      });
+    }
+
     let retrieveData = new Promise(resolve => {
       let query = queryCards(this.state);
       resolve(query);
@@ -88,7 +133,6 @@ export default class DeckBuilder extends Component {
           foundCards: combineFoundCards
         });
       }
-      console.log('state from submit cards button', this.state.foundCards);
       document.getElementById('deck-builder-form').reset();
     });
 
@@ -98,13 +142,13 @@ export default class DeckBuilder extends Component {
 
     if (deckValue.length === 0) {
       this.setState({
-        currentDeck : cardArray
-      })
+        currentDeck : cardArray,
+      }, checkDeckCount())
     } else if (deckValue.length > 0) {
       let combinedCardList = deckValue.concat(cardArray);
       this.setState({
         currentDeck: combinedCardList
-      })
+      }, checkDeckCount())
     }
   }
 
@@ -120,7 +164,7 @@ export default class DeckBuilder extends Component {
         </div>
         <br></br><br></br>
         <div>
-          <ListContainer deckList={this.state} form={this.handleFormChange} decksub={this.onDeckSubmission} delete={this.removeCardFromList} captureCard={this.captureDeletionValue} type ={this.handleFormType}/>
+          <ListContainer deckList={this.state} form={this.handleFormChange} decksub={this.onDeckSubmission} delete={this.removeCardFromList} captureCard={this.captureDeletionValue} type ={this.handleFormType} increment={this.incrementDeckCount}/>
         </div>
       </div>
     );
