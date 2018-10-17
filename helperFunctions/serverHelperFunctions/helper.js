@@ -10,10 +10,41 @@ const convertString = (string) => {
   return nameArray;
 }
 
+const searchScry = (string) => {
+  let data = convert2ConcatString(string);
+  let request = new Promise (resolve => {
+    let promise = () => {
+      return axios.get(`https://api.scryfall.com/cards/named?exact=${data}`, data)
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    }
+    resolve(promise());
+  }).then(result => {
+    mh.insertData([result.data]);
+    return result.data;
+  })
+  return request;
+}
+
 const getRequest = (array) => {
   let data = array;
   let foundCards = Promise.resolve(findData('ADD_CARDS_TO_DB', data)).then((foundCards) => {
     console.log('inserted cards');
+  });
+  return foundCards;
+}
+
+const searchForCards = (string) => {
+  let data = string;
+  let foundCards = new Promise(resolve => {
+    let search = findData('SEARCH_API', data);
+    resolve(search);
+  }).then(result => {
+    return result;
   });
   return foundCards;
 }
@@ -88,12 +119,18 @@ const findData = (id, array) => {
         })
       }
     })
+  } else if (id === 'SEARCH_API') {
+    return new Promise(resolve => {
+      let cards = mtg.card.where({name: array})
+      resolve(cards);
+    }).then(results => {
+      return results;
+    })
   } else if (id === 'SEARCH_DB_FOR_CARDS') {
     return new Promise(resolve => { 
       let theQuery = querydb(data)
       resolve(theQuery);
     }).then((result) => {
-      console.log('these are the searched cards and the data', result);
       return result;
     })
   } else if (id === 'SUBMIT_DECK') {
@@ -122,11 +159,21 @@ const findData = (id, array) => {
   }
 };
 
+const convert2ConcatString = (string) => {
+  let spaceRegx = /([ ])/gi;
+  let value = string.replace(spaceRegx, '+');
+  console.log(value);
+  return value;
+}
+
 module.exports = {
   convertString: convertString,
   getRequest: getRequest, 
+  searchForCards: searchForCards,
+  searchScry: searchScry,
   queryDatabase: queryDatabase, 
-  submitDeck : submitDeck, 
-  retrieveOneDeck : retrieveOneDeck,
-  retrieveAllDecks : retrieveAllDecks
+  submitDeck: submitDeck, 
+  retrieveOneDeck: retrieveOneDeck,
+  retrieveAllDecks: retrieveAllDecks, 
+  convert2ConcatString: convert2ConcatString
 };

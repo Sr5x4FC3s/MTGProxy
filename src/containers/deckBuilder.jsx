@@ -1,5 +1,5 @@
 import React, { Component }      from "react";
-import { postCards, queryCards, convertString, removeWhiteSpaces, removeCardFromList } from '../../helperFunctions/clientHelperFunctions/helper.js';
+import { postCards, queryCards, convertString, removeWhiteSpaces, removeCardFromList, pingScryfall } from '../../helperFunctions/clientHelperFunctions/helper.js';
 
 import InputField     from '../components/builderComponents/deckInputField.jsx';
 import ListContainer  from '../components/builderComponents/listComponent.jsx';
@@ -26,6 +26,37 @@ export default class DeckBuilder extends Component {
     this.captureDeletionValue = this.captureDeletionValue.bind(this);
     this.handleFormType = this.handleFormType.bind(this);
     this.incrementDeckCount = this.incrementDeckCount.bind(this);
+    this.saveSelectedCard = this.saveSelectedCard.bind(this);
+  }
+
+  //<-------function is being passed to dropDownSearch component
+  saveSelectedCard(target) {
+    let targetValue = target.id;
+    let promise = new Promise(resolve => {
+      let query = pingScryfall(targetValue);
+      resolve(query);
+    }).then(result => {
+      let deckList = this.state.currentDeck;
+      let originalCount = this.state.deckCount;
+      let addCopies = [];
+      let total = originalCount + 1;
+      let currentInfo = this.state.foundCards;
+      let newInfo = [];
+
+      addCopies.push(targetValue);
+      newInfo.push(result);
+
+      let newObject = {
+        name: targetValue,
+        data: newInfo
+      };
+
+      this.setState({
+        currentDeck: deckList.concat(addCopies),
+        deckCount: total,
+        foundCards: currentInfo.concat(newObject)
+      });
+    })
   }
 
   incrementDeckCount(target, e) {
@@ -153,10 +184,11 @@ export default class DeckBuilder extends Component {
   }
 
   render() {
+    console.log('this ', this.state)
     return (
       <div id="deckBuilder">
         This is the deck builder page.
-        <InputField deckList={this.state} handleChange={this.handleChange} onSubmit={this.onSubmit}/>
+        <InputField deckList={this.state} handleChange={this.handleChange} onSubmit={this.onSubmit} saveSelectedCard={this.saveSelectedCard}/>
         <br></br><br></br><br></br>
         <div>
           <div>Number of cards in deck :</div>

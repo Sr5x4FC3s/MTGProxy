@@ -16,6 +16,27 @@ export const postCards = (state, endPoint) => {
     });
 };
 
+export const pingScryfall = (string) => {
+  // let data = convert2ConcatString(string);
+  let data = string;
+  
+  return axios.get(`/searchscry/${data}`, data)
+    .then(response => {
+      console.log(response);
+      return response.data;
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
+
+export const convert2ConcatString = (string) => {
+  let spaceRegx = /([ ])/gi;
+  let value = string.replace(spaceRegx, '+');
+  console.log(value);
+  return value;
+}
+
 //function is used to send a query to the database
 export const queryCards = (state) => {
   let data = state;
@@ -25,6 +46,19 @@ export const queryCards = (state) => {
     .then(response => {
       console.log('axios get request was successful');
       console.log('Cards have been retrieved from database!', response);
+      return response;
+    })
+    .catch(error => {
+      console.log(error);
+    })
+};
+
+export const queryManyCards = (state) => {
+  let data = state;
+
+  return axios.get(`/cardsearch/${data}`, data)
+    .then(response => {
+      console.log(response);
       return response;
     })
     .catch(error => {

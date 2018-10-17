@@ -24,6 +24,8 @@ const createNewObjects = (data, model, model2) => {
   }
 }
 
+//<------- general save function -------------->
+
 const save = (array) => {
   for (let i = 0; i < array.length; i++) {
     array[i].save((err) => {
@@ -155,11 +157,54 @@ const queryAllDecks = () => {
   return promise;
 }
 
+//<------ handle scry insert separate from seeding -------> 
+
+//refactor this with other createNewObject func
+const scrySearchObject = (data) => {
+  let newArray = [];
+  for (let i = 0; i < data.length; i++) {
+    let newObject = {};
+    newObject.name = data[i].name;
+    newObject.data = data[i];
+    newArray.push(newObject);
+  }
+  return newArray; 
+}
+
+const convert2Models = (array) => {
+  let newArray = [];
+  for (let i = 0; i < array.length; i++) {
+    let entry = new Model3(array[i]);
+    newArray.push(entry);
+  }
+  return newArray;
+}
+
+const insertData = (array) => {
+  return new Promise(resolve => {
+    let createData = scrySearchObject(array);
+    resolve(createData);
+  }).then(result => {
+    return new Promise (resolve => {
+      let createModels = convert2Models(result);
+      resolve(createModels);
+    }).then(result => {
+      return new Promise(resolve => {
+        let saveData = save(result);
+        resolve(saveData);
+      }).then(result => {
+        console.log('database has received inserted data');
+      })
+    })
+  })
+}
+
 module.exports = {
   insertInstance : insert,
   insertModel : anotherInsert,
   queryName : queryName,
   insertDeck : insertDeck,
   queryOneDeck : queryOneDeck,
-  queryAllDecks : queryAllDecks
+  queryAllDecks : queryAllDecks, 
+  insertData: insertData
 };

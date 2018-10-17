@@ -22,6 +22,27 @@ routes.get('/cardretrieval/:cardarray', (req, res) => {
   })
 });
 
+routes.get('/searchscry/:value', (req, res) => {
+  let data = req.params.value;
+  let promise = new Promise(resolve => {
+    let query = SHF.searchScry(data);
+    resolve(query);
+  }).then(result => {
+    res.send(result);
+  });
+})
+
+routes.get('/cardsearch/:value', (req, res) => {
+  let data = req.params.value; //'String'
+
+  let promise = new Promise((resolve, reject) => {
+    let queried = SHF.searchForCards(data);
+    resolve(queried);
+  }).then(result => {
+    res.status(200).send(result);
+  });
+})
+
 routes.get(`/retrievedeck/:deck`, (req, res) => {
   let data = req.params.deck;
   let data2Array = [data];
