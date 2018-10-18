@@ -18,13 +18,17 @@ const CommandZoneImage = (props) => {
   //render if in play
   if (props.props.state.CZinPlay) {
     return (
-      <div id="commander-in-play">Commander Is Currently In Play</div>
+      <div id="commander-in-play">
+        <h5>Commander Is Currently In Play</h5>
+      </div>
     )
   }
   //render if in hand
   if (props.props.state.CZinHand) {
     return (
-      <div id="commander-in-hand">Commander Is Currently In Hand</div>
+      <div id="commander-in-hand">
+        <h5>Commander Is Currently In Hand</h5>
+      </div>
     )
   }
 };

@@ -87,6 +87,39 @@ const removeCard = (deck, index) => {
   return deck;
 };
 
+//play a card
+const cardAction = (hand, cardName) => {
+  let currentHand = hand.slice();
+
+  for (let i = 0; i < hand.length; i++) {
+    if (currentHand[i] === cardName) {
+      currentHand.splice(i, 1);
+      break;
+    }
+  }
+  return currentHand;
+};
+
+//add card to a field
+const card2Destination = (fieldarray, card) => {
+  let field = [];
+  if (fieldarray === null) {
+    field.push(card);
+    return field;
+  } else {
+    fieldarray.push(card);
+    return fieldarray;
+  }
+};
+
+//shuffle card into deck 
+const shuffleCard2Deck = (deck, targetCard) => {
+  let currentDeck = deck.slice();
+  currentDeck.push(targetCard);
+  let shuffledDeck = shuffleDeck(currentDeck);
+  return shuffledDeck;
+}
+
 module.exports = {
   draw: drawCards,
   shuffle: shuffleDeck,
@@ -94,5 +127,8 @@ module.exports = {
   search: searchLibrary,
   scrySurveil: scrySurveil,
   toBottom: toBottom,
-  removeCard: removeCard
+  removeCard: removeCard, 
+  cardAction: cardAction,
+  card2Destination: card2Destination,
+  shuffleCard2Deck: shuffleCard2Deck
 };

@@ -48,11 +48,18 @@ export default class RealPlayer extends React.Component {
       graveyard : null,
       //<----land area state ---- 
       basicLands : null,
-      nonbasic : null
+      nonbasic : null,
+      //<----target clicked card from anywhere ----
+      targetClickedCard: null
     };
     this.drawCards = this.drawCards.bind(this);
     this.handleCommanderInput = this.handleCommanderInput.bind(this);
     this.handleCommanderSubmit = this.handleCommanderSubmit.bind(this);
+    this.selectTargetCard = this.selectTargetCard.bind(this);
+    this.playCard = this.playCard.bind(this);
+    this.discardCard = this.discardCard.bind(this);
+    this.exileCard= this.exileCard.bind(this);
+    this.shuffleCard = this.shuffleCard.bind(this);
   }
 
   componentWillMount() {
@@ -144,10 +151,68 @@ export default class RealPlayer extends React.Component {
     e.preventDefault();
   }
 
+  //<------- get the id of the clicked card -----
+  selectTargetCard(target) {
+    let targetCard = target;
+
+    this.setState({
+      targetClickedCard: targetCard
+    });
+  }
+
+  playCard(e) {
+    let playTargetCard = this.state.targetClickedCard;
+    let newHand = play.cardAction(this.state.hand, playTargetCard);
+    let modifiedBattlefield = play.card2Destination(this.state.battlefield, playTargetCard);
+
+    this.setState({
+      hand: newHand,
+      battlefield: modifiedBattlefield
+    });
+    e.preventDefault();
+  }
+
+  discardCard(e) {
+    let discardTargetCard = this.state.targetClickedCard;
+    let newHand = play.cardAction(this.state.hand, discardTargetCard);
+    let modifiedGraveyard = play.card2Destination(this.state.graveyard, discardTargetCard);
+
+    this.setState({
+      hand: newHand,
+      graveyard: modifiedGraveyard
+    })
+    e.preventDefault();
+  }
+
+  shuffleCard(e) {
+    let shuffleTargetCard = this.state.targetClickedCard;
+    let newHand = play.cardAction(this.state.hand, shuffleTargetCard);
+    let shuffledCard2Deck = play.shuffleCard2Deck(this.state.deck, shuffleTargetCard);
+
+    this.setState({
+      hand: newHand,
+      deck: shuffledCard2Deck
+    });
+
+    e.preventDefault();
+  }
+
+  exileCard(e) {
+    let exileTargetCard = this.state.targetClickedCard;
+    let newHand = play.cardAction(this.state.hand, exileTargetCard);
+    let modifiedExile = play.card2Destination(this.state.exiled, exileTargetCard);
+
+    this.setState({
+      hand: newHand,
+      exiled: modifiedExile
+    })
+    e.preventDefault();
+  }
+
   render() {
     return (
       <div>
-        <Hand state={this.state} draw={this.drawCards}/>
+        <Hand state={this.state} draw={this.drawCards} target={this.selectTargetCard} play={this.playCard} discard={this.discardCard} exile={this.exileCard} shuffle={this.shuffleCard}/>
         <BattleField state={this.state}/>
         <CommandZone state={this.state} input={this.handleCommanderInput} submit={this.handleCommanderSubmit}/>
         <Deck state={this.state}/>
