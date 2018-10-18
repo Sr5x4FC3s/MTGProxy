@@ -3,7 +3,7 @@ import React from 'react';
 const Surveil = (props) => {
   return (
     <div id="surveil-container">
-      <button id="surveil-deck" onClick={() => {alert('surveil')}}>Mulligan</button>
+      <button id="surveil-deck" onClick={() => {alert('surveil')}}>Surveil</button>
     </div>
   )
 }

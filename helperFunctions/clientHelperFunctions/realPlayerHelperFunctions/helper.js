@@ -1,9 +1,12 @@
 //draw cards 
 const drawCards = (deckHand, count) => {
   //object shape {hand: [], deck: []}
+  let initialHand = deckHand.hand.slice();
+  let initialDeck = deckHand.deck.slice();
+
   let currentObject = {
-    hand: deckHand.hand,
-    deck: deckHand.deck
+    hand: initialHand,
+    deck: initialDeck
   };
 
   for (let i = 0; i < count; i++) {
@@ -24,17 +27,19 @@ const generateRandom = (array) => {
 
 //shuffle deck
 const shuffleDeck = (deckArray) => {
+  let copyOriginal = deckArray.slice();
   let shuffledDeck = [];
 
-  while (deckArray.length > 1) {
-    let generatedIndex = generateRandom(deckArray);
-    shuffledDeck.push(deckArray[generatedIndex]);
-    deckArray.splice(generatedIndex, 1); //remove one element starting from index generatedIndex
+  while (copyOriginal.length > 1) {
+    let generatedIndex = generateRandom(copyOriginal);
+    shuffledDeck.push(copyOriginal[generatedIndex]);
+    copyOriginal.splice(generatedIndex, 1); //remove one element starting from index generatedIndex
   }
 
-  if (deckArray.length === 1) {
-    shuffledDeck.push(deckArray[0]);
+  if (copyOriginal.length === 1) {
+    shuffledDeck.push(copyOriginal[0]);
   }
+
   return shuffledDeck;
 };
 
@@ -58,13 +63,20 @@ const searchLibrary = (deck, card) => {
 
 //scry - surveil
 const scrySurveil = (deck, count) => {
-  //count params is the count of the scry 
+  //count params is the count of the scry
   let scryCards = [];
   for (let i = 0; i < count; i++) {
     scryCards.push(deck[i]);
   }
   return scryCards;
 }
+
+//move card top card to the bottom of the library 
+const toBottom = (deck) => {
+  let indexZero = deck.shift();
+  deck.push(indexZero);
+  return deck;
+};
 
 //remove choose card (example: surveil 2, remove a card from the surveil returned array, remove that card from the deck)
 const removeCard = (deck, index) => {
@@ -79,5 +91,8 @@ module.exports = {
   draw: drawCards,
   shuffle: shuffleDeck,
   mill: mill,
-  search: searchLibrary
+  search: searchLibrary,
+  scrySurveil: scrySurveil,
+  toBottom: toBottom,
+  removeCard: removeCard
 };
