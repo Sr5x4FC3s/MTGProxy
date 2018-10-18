@@ -6,6 +6,7 @@ const SHF        = require('../helperFunctions/serverHelperFunctions/helper.js')
 
 
 routes.get('/cardretrieval/:cardarray', (req, res) => {
+  console.log('ffdrfdsdsas', req.params.cardarray)
   let data = SHF.convertString(req.params.cardarray); //['String']
 
   let promise = new Promise((resolve, reject) => {

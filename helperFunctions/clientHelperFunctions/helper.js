@@ -53,6 +53,21 @@ export const queryCards = (state) => {
     })
 };
 
+//fucntion to query commander in DB 
+export const queryCommander = (state) => {
+  let data = state;
+
+  return axios.get(`/cardretrieval/${data}`, data)
+    .then(response => {
+      console.log('axios get request was successful');
+      console.log('Cards have been retrieved from database!', response);
+      return response;
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
+
 export const queryManyCards = (state) => {
   let data = state;
 

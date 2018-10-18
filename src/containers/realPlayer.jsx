@@ -8,6 +8,8 @@ import Graveyard   from '../components/playerComponents/realPlayerComponents/gra
 import LandArea    from '../components/playerComponents/realPlayerComponents/lands/landsArea.jsx';
 import Hand        from '../components/playerComponents/realPlayerComponents/hand/hand.jsx';
 
+import { queryCommander } from '../../helperFunctions/clientHelperFunctions/helper.js';
+
 const play = require('../../helperFunctions/clientHelperFunctions/realPlayerHelperFunctions/helper.js');
 
 export default class RealPlayer extends React.Component {
@@ -23,6 +25,7 @@ export default class RealPlayer extends React.Component {
       initialHand : true,
       mulligan : false,
       mulliganCount : 0,
+      removeMulligan : false,
       //<----battlefield state ----
       battlefield : null,
       BFcreatures : null,
@@ -30,6 +33,8 @@ export default class RealPlayer extends React.Component {
       BFenchantments : null,
       //<----command zone state ----
       commandZone : null,
+      commanderImageUrl: null,
+      CZinCommandZone: true,
       CZinPlay : false,
       CZinHand : false,
       //<---- deck state
@@ -46,6 +51,8 @@ export default class RealPlayer extends React.Component {
       nonbasic : null
     };
     this.drawCards = this.drawCards.bind(this);
+    this.handleCommanderInput = this.handleCommanderInput.bind(this);
+    this.handleCommanderSubmit = this.handleCommanderSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -109,19 +116,40 @@ export default class RealPlayer extends React.Component {
       this.setState({
         hand: drawCards.hand,
         deck: drawCards.deck,
+        removeMulligan: true
       });
     }
     e.preventDefault();
   }
 
+  handleCommanderInput(e) {
+    this.setState({
+      commandZone: e.target.value
+    });
+    
+    e.preventDefault();
+  }
+
+  handleCommanderSubmit(e) {
+    //do query to db to get commander data => render image in command zone
+    let promise = new Promise(resolve => {
+      let query = queryCommander(this.state.commandZone);
+      resolve(query);
+    }).then(result => {
+      this.setState({
+        commanderImageUrl: result.data[0].data[0].image_uris.normal
+      });
+    })
+
+    e.preventDefault();
+  }
+
   render() {
-    console.log('real player',this.state);
-    console.log('play is successfully required', play);
     return (
       <div>
         <Hand state={this.state} draw={this.drawCards}/>
         <BattleField state={this.state}/>
-        <CommandZone state={this.state}/>
+        <CommandZone state={this.state} input={this.handleCommanderInput} submit={this.handleCommanderSubmit}/>
         <Deck state={this.state}/>
         <Exiled state={this.state}/>
         <Graveyard state={this.state}/>

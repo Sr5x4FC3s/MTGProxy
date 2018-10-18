@@ -1,8 +1,13 @@
 import React from 'react';
+import CommanderInput from './commanderInput.jsx';
+import CommandZoneImage from './commandZoneImage.jsx';
 
 const CommandZone = (props) => {
   return (
-    <div>command zone component</div>
+    <div id="command-zone-container">
+      <CommanderInput props={props}/>
+      <CommandZoneImage props={props}/>
+    </div>
   )
 };
 
