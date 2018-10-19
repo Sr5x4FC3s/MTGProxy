@@ -166,6 +166,21 @@ const convert2ConcatString = (string) => {
   return value;
 }
 
+const onlyOneCopy = (array) => {
+  let copy = array.slice();
+  let count = copy.reduce((number, value) => {
+    number[value] = (number[value] || 0) + 1 ;
+    return number;
+  } , {});
+
+  let newArray = [];
+
+  for (let key in count) {
+    newArray.push(key);
+  }
+  return newArray;
+}
+
 module.exports = {
   convertString: convertString,
   getRequest: getRequest, 
@@ -175,5 +190,6 @@ module.exports = {
   submitDeck: submitDeck, 
   retrieveOneDeck: retrieveOneDeck,
   retrieveAllDecks: retrieveAllDecks, 
-  convert2ConcatString: convert2ConcatString
+  convert2ConcatString: convert2ConcatString,
+  onlyOneCopy: onlyOneCopy
 };

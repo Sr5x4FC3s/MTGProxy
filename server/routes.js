@@ -6,11 +6,29 @@ const SHF        = require('../helperFunctions/serverHelperFunctions/helper.js')
 
 
 routes.get('/cardretrieval/:cardarray', (req, res) => {
-  console.log('ffdrfdsdsas', req.params.cardarray)
   let data = SHF.convertString(req.params.cardarray); //['String']
 
   let promise = new Promise((resolve, reject) => {
     let queried = SHF.queryDatabase(data);
+    resolve(queried);
+  }).then((result) => {
+    return new Promise((resolve, reject) => {
+      let collectedData = result;
+      resolve(collectedData);
+    })
+  }).then((result) => {
+    console.log('collected data', result);
+    res.status(200).send(result);
+  })
+});
+
+routes.get('/inforetrieval/:cardarray', (req, res) => {
+  let data = req.params.cardarray; 
+  let dataArray = data.split(','); //['String']
+  let convert2OneCopy = SHF.onlyOneCopy(dataArray);
+
+  let promise = new Promise((resolve, reject) => {
+    let queried = SHF.queryDatabase(convert2OneCopy);
     resolve(queried);
   }).then((result) => {
     return new Promise((resolve, reject) => {

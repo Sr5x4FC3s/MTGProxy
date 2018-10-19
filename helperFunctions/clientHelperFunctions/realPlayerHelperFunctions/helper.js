@@ -1,3 +1,22 @@
+//will create a new array of card info based on cards in state
+const cardInformationSorter = (cards, info) => {
+  if (cards !== null && info !== null) {
+    let currentHand = cards.slice();
+    let currentInfo = info.slice();
+    let arrayHandInfo = [];
+
+    for (let j = 0; j < currentHand.length; j++) {
+      for (let i = 0; i < currentInfo.length; i++) {
+        if (currentHand[j].toLowerCase() === currentInfo[i].name.toLowerCase()) {
+          arrayHandInfo.push(currentInfo[i]);
+          break;
+        }
+      }
+    }
+    return arrayHandInfo;
+  }
+}
+
 //draw cards 
 const drawCards = (deckHand, count) => {
   //object shape {hand: [], deck: []}
@@ -92,7 +111,7 @@ const cardAction = (hand, cardName) => {
   let currentHand = hand.slice();
 
   for (let i = 0; i < hand.length; i++) {
-    if (currentHand[i] === cardName) {
+    if (currentHand[i].toLowerCase() === cardName.toLowerCase()) {
       currentHand.splice(i, 1);
       break;
     }
@@ -121,6 +140,7 @@ const shuffleCard2Deck = (deck, targetCard) => {
 }
 
 module.exports = {
+  sorter: cardInformationSorter,
   draw: drawCards,
   shuffle: shuffleDeck,
   mill: mill,

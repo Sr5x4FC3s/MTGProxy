@@ -1,8 +1,12 @@
 import React from 'react';
+import RenderGraveyard from './renderGraveyard.jsx';
 
 const Graveyard = (props) => {
   return (
-    <div>graveyard component</div>
+    <div>
+      <h5>Graveyard</h5>
+      <RenderGraveyard props={props}/>
+    </div>
   )
 };
 

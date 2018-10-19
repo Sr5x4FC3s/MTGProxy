@@ -1,8 +1,12 @@
 import React from 'react';
+import RenderExile from './renderExile.jsx';
 
 const Exiled = (props) => {
   return (
-    <div>exiled component</div>
+    <div>
+      <h5>Exiled</h5>
+      <RenderExile props={props}/>
+    </div>
   )
 };
 

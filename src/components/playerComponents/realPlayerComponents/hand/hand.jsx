@@ -28,6 +28,7 @@ export default class Hand extends React.Component {
     let deckList = this.props.state.passedState.list;
     return (
       <div id="hand-container">
+        <h5>Hand</h5>
         <Dialog open={this.state.toggleCardAction} onClose={this.toggleCardActions}>
           <CardActions state={this.state} play={this.props.play} exile={this.props.exile} discard={this.props.discard} shuffle={this.props.shuffle}/>
         </Dialog>

@@ -8,7 +8,7 @@ import Graveyard   from '../components/playerComponents/realPlayerComponents/gra
 import LandArea    from '../components/playerComponents/realPlayerComponents/lands/landsArea.jsx';
 import Hand        from '../components/playerComponents/realPlayerComponents/hand/hand.jsx';
 
-import { queryCommander } from '../../helperFunctions/clientHelperFunctions/helper.js';
+import { queryCommander, informationQuery } from '../../helperFunctions/clientHelperFunctions/helper.js';
 
 const play = require('../../helperFunctions/clientHelperFunctions/realPlayerHelperFunctions/helper.js');
 
@@ -18,6 +18,7 @@ export default class RealPlayer extends React.Component {
     this.state = {
       passedState : null,
       hasPassed : false,
+      cardInfo : null,
       commander : false,
       gameStarted : false,
       //<----hand state -----
@@ -68,6 +69,16 @@ export default class RealPlayer extends React.Component {
       this.setState({
         passedState : receivedState,
         hasPassed : true
+      }, () => {
+        //create array of all cards and no duplicates and get info on them from database
+        let promise = new Promise(resolve => {
+          let query = informationQuery(this.state.passedState.list)
+          resolve(query);
+        }).then(result => {
+          this.setState({
+            cardInfo: result.data
+          });
+        })
       });
     }
   }
