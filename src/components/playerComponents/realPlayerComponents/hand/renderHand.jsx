@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from '../enlargedImages/image.jsx';
 
 const sort = require('../../../../../helperFunctions/clientHelperFunctions/realPlayerHelperFunctions/helper').sorter;
 
@@ -11,11 +12,11 @@ const RenderHand = (props) => {
       { props.props.state.hand !== null ?
         sortedInfo.map(cards => {
         return (
-          <img id={cards.name} name={cards.name} props={cards} onClick={props.toggle} src={cards.data[0].image_uris.small}></img>
-        )
+            <img id={cards.name} name={cards.name} props={cards} onClick={props.toggle} src={cards.data[0].image_uris.small} onMouseEnter={props.props.mouseOver} onMouseLeave={props.props.mouseOver}></img>        )
       }) : (
         null
       )}
+      {props.props.state.mousedOver && <Image props={props}/>}
     </div>
   )
 };

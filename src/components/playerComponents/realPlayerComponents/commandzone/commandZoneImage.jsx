@@ -8,7 +8,7 @@ const CommandZoneImage = (props) => {
     return (
       <div id="command-zone-image">
         {props.props.state.commanderImageUrl !== null ? (
-          <img id="commander-image" src={props.props.state.commanderImageUrl}></img>
+          <img id="commander-image" src={props.props.state.commanderImageUrl.small}></img>
         ) : (
           null
         )}

@@ -1,4 +1,5 @@
 import React       from 'react';
+import ReactDOM    from 'react-dom';
 
 import BattleField from '../components/playerComponents/realPlayerComponents/battlefield/battleField.jsx';
 import CommandZone from '../components/playerComponents/realPlayerComponents/commandzone/commandZone.jsx';
@@ -7,6 +8,7 @@ import Exiled      from '../components/playerComponents/realPlayerComponents/exi
 import Graveyard   from '../components/playerComponents/realPlayerComponents/graveyard/graveyard.jsx';
 import LandArea    from '../components/playerComponents/realPlayerComponents/lands/landsArea.jsx';
 import Hand        from '../components/playerComponents/realPlayerComponents/hand/hand.jsx';
+import Image from '../components/playerComponents/realPlayerComponents/enlargedImages/image.jsx';
 
 import { queryCommander, informationQuery } from '../../helperFunctions/clientHelperFunctions/helper.js';
 
@@ -16,6 +18,9 @@ export default class RealPlayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      //<----checking state of mouse over ---
+      mousedOver: false,
+      //<------------------------------------
       passedState : null,
       hasPassed : false,
       cardInfo : null,
@@ -51,8 +56,10 @@ export default class RealPlayer extends React.Component {
       basicLands : null,
       nonbasic : null,
       //<----target clicked card from anywhere ----
-      targetClickedCard: null
+      targetClickedCard: null,
+      hoveredUrl : null,
     };
+    this.onMouseOver = this.onMouseOver.bind(this);
     this.drawCards = this.drawCards.bind(this);
     this.handleCommanderInput = this.handleCommanderInput.bind(this);
     this.handleCommanderSubmit = this.handleCommanderSubmit.bind(this);
@@ -81,6 +88,25 @@ export default class RealPlayer extends React.Component {
         })
       });
     }
+  }
+
+  onMouseOver(e) {
+    let target = this.selectTargetCard(e.target.id);
+
+    this.setState({
+      mousedOver: !this.state.mousedOver
+    }, () => {
+      if (this.state.mousedOver) {
+        let arrayValue = [];
+        arrayValue.push(this.state.targetClickedCard);
+        let info = play.sorter(arrayValue, this.state.cardInfo);
+        
+        this.setState({
+          hoveredUrl: info[0].data[0].image_uris.normal
+        });
+      }
+    });
+    e.preventDefault();
   }
 
   drawCards(e) {
@@ -155,7 +181,7 @@ export default class RealPlayer extends React.Component {
       resolve(query);
     }).then(result => {
       this.setState({
-        commanderImageUrl: result.data[0].data[0].image_uris.normal
+        commanderImageUrl: result.data[0].data[0].image_uris
       });
     })
 
@@ -223,7 +249,7 @@ export default class RealPlayer extends React.Component {
   render() {
     return (
       <div>
-        <Hand state={this.state} draw={this.drawCards} target={this.selectTargetCard} play={this.playCard} discard={this.discardCard} exile={this.exileCard} shuffle={this.shuffleCard}/>
+        <Hand state={this.state} draw={this.drawCards} target={this.selectTargetCard} play={this.playCard} discard={this.discardCard} exile={this.exileCard} shuffle={this.shuffleCard} mouseOver={this.onMouseOver}/>
         <BattleField state={this.state}/>
         <CommandZone state={this.state} input={this.handleCommanderInput} submit={this.handleCommanderSubmit}/>
         <Deck state={this.state}/>
